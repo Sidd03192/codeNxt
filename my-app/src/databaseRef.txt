@@ -1,0 +1,43 @@
+Database: 
+
+Problems----
+id
+title
+category
+difficulty
+likes
+dislikes
+videoId
+link
+order
+
+
+Users
+id
+displayName
+likeyProblems
+dislikedProblems
+starredProblems
+solvedProblems
+createdAt
+updatedAt
+
+Local:
+
+Problems----
+id
+title
+problem Statemtn
+examples
+constaints
+oder
+starter code
+handler function
+startFunction Name
+
+
+
+https://github.com/Sidd03192/cs4prez 
+
+
+
