@@ -5,6 +5,7 @@
 import "./auth.css";
 import { useState, useEffect } from "react";
 import {Input, Link} from "@nextui-org/react";
+
 import {MailIcon} from './components/MailIcon';
 import React from 'react'
 import {EyeFilledIcon} from "./components/EyeFilledIcon";
@@ -116,7 +117,7 @@ const handleSignIn = async (event) => {
   } catch (err) {
     console.error("Email/Password Sign-In Error:", err.message);
  
-    handleSignInSuccess("Problem Creating Account", "warning");
+    handleSignInSuccess("Problem Creating Account. Make sure your Password is 6+ characters! ", "warning");
 
 
 

@@ -5,13 +5,16 @@ import { LandingPage } from './pages/landingPage';
 import { Auth} from './auth/auth';
 import { Signup } from './auth/signup';
 import {NextUIProvider} from "@nextui-org/react";
-
+import { Header } from './components/header';
 
 function App() {
   return (
     <div className="App">
-      <NextUIProvider>     
-        <Signup/>
+      
+      <NextUIProvider> 
+       <Header/>
+       <Signup/>   
+      
         
       </NextUIProvider>
       
