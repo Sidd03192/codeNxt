@@ -85,6 +85,8 @@ const signInWithGoogle = async () => {
     handleSignInSuccess("Google sign-in successful!", "success");
   } catch (err) {
     console.error("Google Sign-In Error:", err.message);
+    handleSignInSuccess("You've got to Sign up first... Bud", "warning");
+
   }
 };
 

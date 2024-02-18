@@ -4,7 +4,6 @@ import { useState } from 'react';
 import {Link} from "@nextui-org/react";
 //import {BiHomeAlt} from "react-icons/bi";
 import Tooltip from '@mui/material/Tooltip';
-
 import Cookies from "universal-cookie";
 import { signOut,getAuth } from 'firebase/auth';
 //import {Profile} from "./Profile"
@@ -27,7 +26,8 @@ export const Header = (props) => {
 
         <div className='title'>           
             
-            <h1 className='mainText' style={{color:"white", justifyContent:"center", fontSize:"20px", fontWeight:"bold"}}> Brain Flow </h1>       
+        <img className="logo1"src={require('./logo.png')}/>
+   
         </div>
           <div className="pages">
           <Tooltip title="Dashboard" arrow>

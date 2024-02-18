@@ -5,7 +5,7 @@
 import "./auth.css";
 import { useState, useEffect } from "react";
 import {Input, Link} from "@nextui-org/react";
-
+import { UserCard } from "./components/card"
 import {MailIcon} from './components/MailIcon';
 import React from 'react'
 import {EyeFilledIcon} from "./components/EyeFilledIcon";
@@ -17,25 +17,31 @@ import Cookies from "universal-cookie";
 import { getAuth } from "firebase/auth";
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
-import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure} from "@nextui-org/react";
+import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure,} from "@nextui-org/react";
 import {Checkbox} from "@nextui-org/react";
-import {ScrollShadow} from "@nextui-org/react";
+import { db } from "../firebase/firebase";import { collection, addDoc } from 'firebase/firestore';
 
 export const Signup =()=>{
 const cookies = new Cookies();
-const [userData, setUserData] = useState();
-const [userName, setUserName] = useState("");
-const[userId, setUserId] = useState("");
-const [createdAt, setCreatedAt]= useState();
-const [alertbutton,setalertbutton]=useState(false);
-const [isVisible, setIsVisible] = React.useState(false);
-const[showLogin, setshowLogin] = React.useState(false);
-const [Email, setEmail]= useState("");
-const[Password, setPassword]=useState("");
+const [userData, setUserData] = useState({
+  userName: "",
+  userPicture: "",
+  userId:"",
+  role: "",
+  company: "",
+  email: "",
+  password: "",
+  correctQuestions: [0]
+});
+
+const [isVisible, setIsVisible] = useState(false);
+const [Email, setEmail] = useState("");
+const [Password, setPassword] = useState("");
 const auth = getAuth();
 const [user, setUser] = useState(auth.currentUser);
+
+
 const toggleVisibility = () => setIsVisible(!isVisible);
-const [error,setError] = useState(false);
 const [openSnackbar, setOpenSnackbar] = useState(false); // State for Snackbar visibility
 const [snackbarMessage, setSnackbarMessage] = useState(""); // State for Snackbar message
 const vertical ="top"
@@ -43,8 +49,19 @@ const horizontal="center"
 const [success, setSuccess] = useState("")
 const {isOpen, onOpen, onOpenChange} = useDisclosure();
 const [read, setRead]=useState(false);
-const isLoginEnabled = Email !== "" && Password !== "" && read==true;
+const isLoginEnabled = true;
+const scrollBehavior ="outside";
+useEffect(() => {
+  const unsubscribe = onAuthStateChanged(auth, (authUser) => {
+    setUser(authUser);
+    if (authUser != null) {
+      cookies.set("auth-token", authUser.refreshToken); //navigate("./dash");
+      
+    }
+  });
 
+  return () => unsubscribe();
+}, []);
 
 const handleEmailChange = (event) => {
   setEmail(event.target.value);
@@ -59,6 +76,59 @@ const handleSignInSuccess = (message, fortune) => {
   setSnackbarMessage(message); // Set the Snackbar message
   setSuccess(fortune); // Set the
 };
+
+const signInWithGoogle = async () => {
+  try {
+    console.log("Attempting Google Sign-In...");
+    const result = await signInWithPopup(auth, provider);
+    console.log("Google Sign-In Result:", result);
+
+    // Extract user information from the result object
+    const { email, displayName, photoURL } = result.user;
+
+    // Update states with the extracted user information
+    setEmail(email); 
+    setUserData(prevState => ({
+      ...prevState,
+      userName: displayName,
+      userPicture: photoURL,
+      email: email
+    }));
+
+    cookies.set("auth-token", result.user.refreshToken);
+
+    createUser();
+
+    // Handle sign-in success
+    handleSignInSuccess("Google sign-in successful!", "success");
+
+  } catch (err) {
+    console.error("Google Sign-In Error:", err.message);
+    handleSignInSuccess("Problem with Google Sign in ", "warning");
+  }
+};
+
+
+const handleCheckboxChange = () => {
+  console.log("Checkbox changed");
+};
+
+const userImageUpload = (event) => {
+  const file = event.target.files[0];
+  const reader = new FileReader();
+
+  reader.onloadend = () => {
+    // Update the user picture state with the base64 representation of the uploaded image
+    setUserData(prevState => ({
+      ...prevState,
+      userPicture: reader.result
+    }));
+  };
+
+  if (file) {
+    reader.readAsDataURL(file); // Read the file as a data URL (base64)
+  }
+};
 const validateEmail = (Email) => Email.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$/i);
   const isInvalid = React.useMemo(() => {
     if (Email === "") return false;
@@ -66,64 +136,50 @@ const validateEmail = (Email) => Email.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{
     return validateEmail(Email) ? false : true;
   }, [Email]);
 
-useEffect(() => {
-  const unsubscribe = onAuthStateChanged(auth, (authUser) => {
-    setUser(authUser);
-    
-    if ( user!=null)
-    {
-      cookies.set("auth-token", user.refreshToken); //navigate("./dash");
-    }
-  });
-
-  return () => unsubscribe();
-}, []);
-
-const signInWithGoogle = async () => {
-  try {
-    console.log("Attempting Google Sign-In...");
-    const result = await signInWithPopup(auth, provider);
-    console.log("Google Sign-In Result:", result);
-    cookies.set("auth-token", result.user.refreshToken);
-
-    // Handle successful sign-in with Google
-    handleSignInSuccess("Google sign-in successful!", "success");
-  } catch (err) {
-    console.error("Google Sign-In Error:", err.message);
-    handleSignInSuccess("Problem with Google Sign in ", "warning");
-  }
-};
-const handleCheckboxChange = () => {
-    console.log("hello");
-  }
 const handleSignIn = async (event) => {
   event.preventDefault();
-  // Your login logic...
   try {
     const result = await createUserWithEmailAndPassword(auth, Email, Password);
     console.log("create user result:", result);
-
-    handleSignInSuccess("Account Created !", "success");
-    setPassword(""); setEmail("");
-    // Check if the user's email is verified
-    if (result.user.emailVerified) {
+    
+    setPassword("");
+    setEmail("");
+    createUser();
+    
       cookies.set("auth-token", result.user.refreshToken);
-      handleSignInSuccess(); // Call the function for successful login
-    } else {
-      console.log("Email is not verified. Sending verification email...");
-      
-      await sendEmailVerification(result.user);
-    }
+      handleSignInSuccess("Account Created !", "success");  
+    
   } catch (err) {
     console.error("Email/Password Sign-In Error:", err.message);
- 
     handleSignInSuccess("Problem Creating Account. Make sure your Password is 6+ characters! ", "warning");
-
-
-
   }
- 
 };
+
+
+const createUser = async () => {
+  console.log('userData:', userData);
+
+try {
+  const docRef = await addDoc(collection(db, 'users'), {
+    ...userData,
+  });
+  console.log('Document written with ID:', docRef.id);
+} catch (error) {
+  console.error('Error adding document:', error);
+}
+
+} 
+
+
+
+
+
+
+
+
+
+
+
 
 return (
 <div className="background-image">
@@ -180,13 +236,13 @@ return (
       
         
       </div>
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+      <Modal size="lg"scrollBehavior={scrollBehavior}isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1">Modal Title</ModalHeader>
-              <ScrollShadow className="w-[300px] h-[400px]">
-              <ModalBody>
+              <ModalHeader className="flex flex-col gap-1">Terms and Conditions</ModalHeader>
+             
+              <ModalBody >
                 <p> 
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                   Nullam pulvinar risus non risus hendrerit venenatis.
@@ -201,12 +257,51 @@ return (
                   Magna exercitation reprehenderit magna aute tempor cupidatat consequat elit
                   dolor adipisicing. Mollit dolor eiusmod sunt ex incididunt cillum quis. 
                   Velit duis sit officia eiusmod Lorem aliqua enim laboris do dolor eiusmod. 
-                  Et mollit incididunt nisi consectetur esse laborum eiusmod pariatur 
-                  proident Lorem eiusmod et. Culpa deserunt nostrud ad veniam.
+                  Magna exercitation reprehenderit magna aute tempor cupidatat consequat elit
+                  
                   
                 </p>
+                <Input
+                  label="UserName"
+                  value={userData.userName}
+                  className="max-w-1/1"
+                  onChange={(event) => setUserData({ ...userData, userName: event.target.value })}
+                />
+                <Input
+                  label="Company Name"
+                  value={userData.company}
+                  className="max-w-1/1"
+                  onChange={(event) => setUserData({ ...userData, company: event.target.value })}
+                />
+                <Input
+                  label="Company Role"
+                  value={userData.role}
+                  className="max-w-1/1"
+                  onChange={(event) => setUserData({ ...userData, role: event.target.value })}
+                />
+
+                <div className="input2-div">
+                
+                <input className="input2" name="file" onChange={userImageUpload} type="file" />
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" stroke-width="2" fill="none" stroke="currentColor" className="icon">
+            <polyline points="16 16 12 12 8 16"></polyline>
+            <line y2="21" x2="12" y1="12" x1="12"></line>
+            <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"></path>
+            <polyline points="16 16 12 12 8 16"></polyline>
+          </svg>
+       
+                </div>
+                <div className= "userCardoutside">
+                <UserCard
+                  userName={userData.userName}
+                  company={userData.company}
+                  role={userData.role}
+                  image={userData.userPicture} // Pass the user picture as a prop
+                />
+                </div>
               </ModalBody>
-              </ScrollShadow>
+             
               <ModalFooter>
                 <Button color="danger" variant="light" onClick={setRead(false)} onPress={onClose}>
                   Close
@@ -219,6 +314,7 @@ return (
           )}
         </ModalContent>
       </Modal>
+      
 <div className="buttonz">
   <button onClick={signInWithGoogle} className="btn google" >
   
@@ -296,7 +392,7 @@ return (
           )}
 
 
-<Snackbar    anchorOrigin={{vertical, horizontal}}  TransitionComponent="Fade"
+<Snackbar    anchorOrigin={{vertical, horizontal}} 
  open={openSnackbar} autoHideDuration={6000} onClose={() => setOpenSnackbar(false)}> 
         <Alert onClose={() => setOpenSnackbar(false)} severity={success} variant="filled" sx={{ width: '100%' }}>
           {snackbarMessage}
