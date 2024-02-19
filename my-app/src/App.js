@@ -6,7 +6,7 @@ import { Auth} from './auth/auth';
 import { Signup } from './auth/signup';
 import {NextUIProvider} from "@nextui-org/react";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { getAuth } from "firebase/auth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { Header } from './components/header';
 import Compiler from "./Compiler/Complier";
 import { useEffect, useState } from 'react';
@@ -46,13 +46,18 @@ function App() {
     }
   };
 
-  useEffect(() => {
-    console.log(user);
-    if (user) {
-      fetchUserData();
-    }
-  }, [auth.currentUser]);
 
+  useEffect(() => {
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        fetchUserData();
+      } 
+    });
+    return () => unsubscribe();
+  }, []); // Empty dependency array ensures that the effect runs only once
+ 
+ 
   return (
     <div className="App">
       <NextUIProvider>

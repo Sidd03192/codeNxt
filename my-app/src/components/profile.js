@@ -7,12 +7,15 @@ import { getAuth } from "firebase/auth";
 import { signOut } from "firebase/auth";
 import {Navigate} from 'react-router-dom'
 import { Link } from "react-router-dom";
+import Cookies from "universal-cookie";
 export const Profile=(props)=> {
-
+    const cookies = new Cookies();
     const [user, setUser]= useState(getAuth().currentUser);
+    const [isAuth, setIsAuth] = useState(cookies.get("auth-token"));
 
-  
+    console.log(user);
     const logout = () => {
+        setIsAuth(false); 
       console.log("hello");
       const auth = getAuth();
       signOut(auth);
@@ -22,7 +25,7 @@ export const Profile=(props)=> {
  
 
   const login = () => {
-    console.log("login");
+    console.log(user);
     return <Navigate to="/login" />;
   };
 
@@ -30,7 +33,7 @@ export const Profile=(props)=> {
      // Redirect to the sign-up page
   };
 
-    if (user!=null){
+    if (isAuth){
        
 
        
