@@ -9,31 +9,24 @@ import {MailIcon} from './components/MailIcon';
 import React from 'react'
 import {EyeFilledIcon} from "./components/EyeFilledIcon";
 import {EyeSlashFilledIcon} from "./components/EyeSlashFilledIcon";
-import {logoWithText} from "./logoWithText.png";
 import {  onAuthStateChanged,signInWithEmailAndPassword,createUserWithEmailAndPassword, signInWithPopup,sendEmailVerification} from "firebase/auth";
 import { auth, provider } from "../firebase/firebase";
 import Cookies from "universal-cookie";
 import { getAuth } from "firebase/auth";
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
-import { Button } from "@mui/material";
+
 export const Auth =()=>{
 const cookies = new Cookies();
-const [userData, setUserData] = useState();
-const [userName, setUserName] = useState("");
-const[userId, setUserId] = useState("");
-const [userEmail, setUserEmail] = useState("");
-const [createdAt, setCreatedAt]= useState();
-const [alertbutton,setalertbutton]=useState(false);
+
 const [isVisible, setIsVisible] = React.useState(false);
-const[showLogin, setshowLogin] = React.useState(false);
+
 const [Email, setEmail]= useState("");
 const[Password, setPassword]=useState("");
 const isLoginEnabled = Email !== "" && Password !== "" ;
 const auth = getAuth();
 const [user, setUser] = useState(auth.currentUser);
 const toggleVisibility = () => setIsVisible(!isVisible);
-const [error,setError] = useState(false);
 const [openSnackbar, setOpenSnackbar] = useState(false); // State for Snackbar visibility
 const [snackbarMessage, setSnackbarMessage] = useState(""); // State for Snackbar message
 const vertical ="top"

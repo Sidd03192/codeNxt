@@ -10,9 +10,8 @@ import {MailIcon} from './components/MailIcon';
 import React from 'react'
 import {EyeFilledIcon} from "./components/EyeFilledIcon";
 import {EyeSlashFilledIcon} from "./components/EyeSlashFilledIcon";
-import {logoWithText} from "./logoWithText.png";
-import {  onAuthStateChanged,signInWithEmailAndPassword,createUserWithEmailAndPassword, signInWithPopup,sendEmailVerification} from "firebase/auth";
-import { auth, provider } from "../firebase/firebase";
+import {  onAuthStateChanged,createUserWithEmailAndPassword, signInWithPopup,sendEmailVerification} from "firebase/auth";
+import { provider } from "../firebase/firebase";
 import Cookies from "universal-cookie";
 import { getAuth } from "firebase/auth";
 import Snackbar from '@mui/material/Snackbar';
@@ -20,6 +19,9 @@ import Alert from '@mui/material/Alert';
 import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure,} from "@nextui-org/react";
 import {Checkbox} from "@nextui-org/react";
 import { db } from "../firebase/firebase";import { collection, addDoc } from 'firebase/firestore';
+import { doc,setDoc } from 'firebase/firestore';
+
+
 
 export const Signup =()=>{
 const cookies = new Cookies();
@@ -78,34 +80,61 @@ const handleSignInSuccess = (message, fortune) => {
 };
 
 const signInWithGoogle = async () => {
-  try {
-    console.log("Attempting Google Sign-In...");
-    const result = await signInWithPopup(auth, provider);
-    console.log("Google Sign-In Result:", result);
 
-    // Extract user information from the result object
-    const { email, displayName, photoURL } = result.user;
 
-    // Update states with the extracted user information
-    setEmail(email); 
-    setUserData(prevState => ({
-      ...prevState,
-      userName: displayName,
-      userPicture: photoURL,
-      email: email
-    }));
+    try {
+      console.log("Attempting Google Sign-In...");
+      const result = await signInWithPopup(auth, provider);
+      console.log("Google Sign-In Result:", result);
 
-    cookies.set("auth-token", result.user.refreshToken);
+      // Extract user information from the result object
+      const { email, displayName, photoURL } = result.user;
 
-    createUser();
+      // Update states with the extracted user information
+      setEmail(email); 
+      setUserData(prevState => ({
+        ...prevState,
+        userName: displayName,
+        userPicture: photoURL,
+        email: email
+      }));
 
-    // Handle sign-in success
-    handleSignInSuccess("Google sign-in successful!", "success");
+      cookies.set("auth-token", result.user.refreshToken);
 
-  } catch (err) {
-    console.error("Google Sign-In Error:", err.message);
-    handleSignInSuccess("Problem with Google Sign in ", "warning");
-  }
+      // Update Firestore database with user information
+      updateUserDataInFirestore(email, displayName, photoURL);
+
+      // Handle sign-in success
+      handleSignInSuccess("Google sign-in successful!", "success");
+
+    } catch (err) {
+      console.error("Google Sign-In Error:", err.message);
+      handleSignInSuccess("Problem with Google Sign in ", "warning");
+    }
+}
+
+
+
+const updateUserDataInFirestore = (email, displayName, photoURL) => {
+  const userDocRef = doc(db, 'users', auth.currentUser.uid);
+
+  setDoc(userDocRef, {
+    email: email,
+    userName: displayName,
+    userPicture: photoURL,
+    userId:userData.userId,
+    role: userData.role,
+    company: userData.company,
+    correctQuestions: [0]
+
+    // Add other user details as needed
+  }, { merge: true })
+  .then(() => {
+    console.log("User data updated in Firestore successfully");
+  })
+  .catch((error) => {
+    console.error("Error updating user data in Firestore:", error);
+  });
 };
 
 
@@ -316,7 +345,8 @@ return (
       </Modal>
       
 <div className="buttonz">
-  <button onClick={signInWithGoogle} className="btn google" >
+<button className="btn google"onClick={() => read ? signInWithGoogle() : handleSignInSuccess("Read Those Terms..", "warning")}>  
+
   
   <svg
     version="1.1"
@@ -372,12 +402,12 @@ return (
             </svg>
             Apple
           </button>
-      </div>
+      </div> 
 {/* button for submit */}
       {isLoginEnabled && (
             <div className="buttonz">
               <button 
-              onClick={handleSignIn}
+              onClick={() =>( read &&userData.password!="" && userData.email) ? handleSignIn() : handleSignInSuccess("Read Those Terms.. & Fill them Feilds", "warning")}
               className="space" type="button">
                 <strong>LOGIN</strong>
                 <div id="container-stars">
