@@ -28,7 +28,6 @@ function App() {
     password: "",
     correctQuestions: [0]
   });
-
   const fetchUserData = async () => {
     const userDocRef = doc(db, 'users', auth.currentUser.uid);
     const docSnap = await getDoc(userDocRef);
@@ -45,8 +44,6 @@ function App() {
       });
     }
   };
-
-
   useEffect(() => {
     const auth = getAuth();
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -59,12 +56,14 @@ function App() {
  
  
   return (
+    <main className="">
+
     <div className="App">
       <NextUIProvider>
         <div className="app">
           <BrowserRouter>
             
-              <Header email={userData.userName} pic={userData.userPicture} />
+            <Header email={userData.userName} pic={userData.userPicture} />
             
             <Routes>
               <Route path="/LandingPage" element={<LandingPage />} />
@@ -75,6 +74,7 @@ function App() {
         </div>
       </NextUIProvider>
     </div>
+    </main>
   );
 }
 
