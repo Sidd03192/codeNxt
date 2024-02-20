@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "./Compiler.css";
 export default class Compiler extends Component {
+  
   constructor(props) {
     super(props);
     this.state = {
@@ -94,6 +95,13 @@ export default class Compiler extends Component {
   };
   
   render() { 
+    
+// let cm = new CodeMirror.fromTextArea(document.getElementById("source"), {
+//   lineNumbers: true, 
+//   mode: "javascript", 
+//   theme: "dracula",
+//   lineWrapping: false
+// });
     return (
       <>
         <div className="row container-fluid">
@@ -104,6 +112,7 @@ export default class Compiler extends Component {
               </span>
             </label>
             <textarea
+
               required
               name="solution"
               id="source"
@@ -151,6 +160,7 @@ export default class Compiler extends Component {
           <textarea id="input" onChange={this.userInput}></textarea>
         </div>
       </>
+      
     );
-  }
+}
 }
