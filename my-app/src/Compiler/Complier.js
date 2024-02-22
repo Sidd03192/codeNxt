@@ -116,16 +116,14 @@ export default class Compiler extends Component {
               </span>
             </label>
             <textarea
-
               required
               name="solution"
               id="source"
               onChange={this.input}
               className=" source"
-              value={this.value?this.state.input:"hello"}
-            >
+              value={this.state.input}
               
-            </textarea>
+            ></textarea>
             <button
               type="submit"
               className="btn btn-danger ml-2 mr-2 "
