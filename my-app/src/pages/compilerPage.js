@@ -1,16 +1,11 @@
 import React from 'react'
 import Compiler from '../Compiler/Complier'
-export const LandingPage=()=> {
+export const CompilerPage=()=> {
   return (
     <div style={{width:'40%'}}>
- 
- <p1>HELLO THIS IS LANDING</p1>
+ <Compiler />
     </div>
  
 
   )
 }
-
-
-
-

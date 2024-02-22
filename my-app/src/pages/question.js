@@ -1,31 +1,9 @@
-import {
-    ResizableHandle,
-    ResizablePanel,
-    ResizablePanelGroup,
-  } from "@/components/ui/resizable"
-  
-  export const Question=()=> {
-    return (
-      <ResizablePanelGroup direction="horizontal" className="min-h-[200px] max-w-md rounded-lg border">
-
-
-        <ResizablePanel defaultSize={25}>
-          <div className="flex h-full items-center justify-center p-6">
-            {/* code goes here*/}
-
-            <span className="font-semibold">Sidebar</span>
-
-
-
-          </div>
-        </ResizablePanel>
-        <ResizableHandle withHandle />
-        <ResizablePanel defaultSize={75}>
-          <div className="flex h-full items-center justify-center p-6">
-            <span className="font-semibold">Content</span>
-          </div>
-        </ResizablePanel>
-      </ResizablePanelGroup>
-    )
-  }
-  
+import React from 'react'
+import Compiler from '../Compiler/Complier'
+export const QuestionPage=()=>{
+	return(
+		<div style={{width:'40%'}}>
+		<p1>HELLO THIS IS QUESTION</p1>
+		</div>
+	)
+}

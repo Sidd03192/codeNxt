@@ -46,7 +46,7 @@ export const Profile=(props)=> {
                   as="button"
                   className="transition-transform"
                   src={props.pic}
-                  name="joe"
+                  name="null"
                 />
               </DropdownTrigger>
               <DropdownMenu aria-label="Profile Actions" variant="flat">
