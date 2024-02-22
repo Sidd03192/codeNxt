@@ -62,10 +62,10 @@ export const Header = (props) => {
                 </li>
             </ul> */}
             </Tooltip>
-            <Tooltip title="learn" arrow>
+            <Tooltip title="Questions" arrow>
             <ul>
                 <li>
-                <Link to="/learn"> Questions </Link>
+                <Link to="/Question"> Question </Link>
                 </li>
             </ul>
             </Tooltip>

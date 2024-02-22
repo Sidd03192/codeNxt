@@ -1,7 +1,11 @@
 import React, { Component } from "react";
 import "./Compiler.css";
+import { useState } from "react";
 export default class Compiler extends Component {
-  
+
+
+
+
   constructor(props) {
     super(props);
     this.state = {
@@ -118,8 +122,10 @@ export default class Compiler extends Component {
               id="source"
               onChange={this.input}
               className=" source"
-              value={this.state.input}
-            ></textarea>
+              value={this.value?this.state.input:"hello"}
+            >
+              
+            </textarea>
             <button
               type="submit"
               className="btn btn-danger ml-2 mr-2 "
