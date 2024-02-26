@@ -4,10 +4,12 @@
     "\\my-app",
     "\\my-app\\src",
     "\\my-app\\src\\auth",
+    "\\my-app\\src\\auth\\components",
     "\\my-app\\src\\Compiler",
     "\\my-app\\src\\components",
+    "\\my-app\\src\\firebase",
     "\\my-app\\src\\pages"
   ],
-  "SelectedNode": "\\my-app\\src\\pages\\question.js",
+  "SelectedNode": "\\my-app\\src\\pages\\landingCards2.js",
   "PreviewInSolutionExplorer": false
 }
