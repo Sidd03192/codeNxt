@@ -1,31 +1,21 @@
-import {
-    ResizableHandle,
-    ResizablePanel,
-    ResizablePanelGroup,
-  } from "@/components/ui/resizable"
-  
-  export const Question=()=> {
-    return (
-      <ResizablePanelGroup direction="horizontal" className="min-h-[200px] max-w-md rounded-lg border">
+import React from "react";
+import CodeMirror from '@uiw/react-codemirror';
+import { javascript } from '@codemirror/lang-javascript';
+import { tokyoNight } from "@uiw/codemirror-theme-tokyo-night";
 
 
-        <ResizablePanel defaultSize={25}>
-          <div className="flex h-full items-center justify-center p-6">
-            {/* code goes here*/}
+export const  Question=(props)=> {
 
-            <span className="font-semibold">Sidebar</span>
+  const [value, setValue] = React.useState(props.boilerplate);
+  const onChange = React.useCallback((val, viewUpdate) => {
+    console.log('val:', val);
+    setValue(val);
+  }, []);
+  return <CodeMirror 
+  value={value} 
+  height="200px" 
+  extensions={[javascript({ jsx: true })]} 
+  theme={tokyoNight}
+  onChange={onChange} />;
 
-
-
-          </div>
-        </ResizablePanel>
-        <ResizableHandle withHandle />
-        <ResizablePanel defaultSize={75}>
-          <div className="flex h-full items-center justify-center p-6">
-            <span className="font-semibold">Content</span>
-          </div>
-        </ResizablePanel>
-      </ResizablePanelGroup>
-    )
-  }
-  
+}
