@@ -10,6 +10,9 @@
     height: 50vh;
     font-size: 15px;
     resize: vertical;
+    padding: 10px;
+    
+
   }
   #input {
     background: #cccccc52;

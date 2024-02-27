@@ -29,32 +29,34 @@ export const Header = (props) => {
         <img className="logo1"src={require('./logo.png')}/>
    
         </div>
-          <div className="pages">
-          <Tooltip title="landing" arrow>
-            <ul>
-                <li className = "headerLink">
-                
-                <Link to="/landingPage"> Landing </Link>
-                </li>
-            </ul>
-            </Tooltip>
-            <Tooltip title="Collaborate" arrow>
-
-
-            <ul>
-                <li>
-                <Link to="/chat"> Collaborate </Link>
-                </li>
-            </ul>
-            </Tooltip>
-          
-            <Tooltip title="About" arrow>
+          <div className="pages"> 
+          <Tooltip title="About" arrow>
             <ul>
                 <li>
                 <Link to="/about"> About </Link>
                 </li>
             </ul>
             </Tooltip>
+          <Tooltip title="Get Started!" arrow>
+
+
+            <ul>
+                <li>
+                <Link to="/landingPage"> Get Started! </Link>
+                </li>
+            </ul>
+            </Tooltip>
+          <Tooltip title="Compiler" arrow>
+            <ul>
+                <li className = "headerLink">
+                
+                <Link to="/compilerPage"> Code! </Link>
+                </li>
+            </ul>
+            </Tooltip>
+            
+          
+           
             <Tooltip title="Profile" arrow followCursor>
             {/* <ul className="profile"> 
                 <li>   <Profile name ={props.name} email={props.email} photo={props.photo}/>
@@ -65,7 +67,7 @@ export const Header = (props) => {
             <Tooltip title="Questions" arrow>
             <ul>
                 <li>
-                <Link to="/Question"> Question </Link>
+                <Link to="/questionPage"> Question </Link>
                 </li>
             </ul>
             </Tooltip>
