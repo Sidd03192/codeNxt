@@ -14,7 +14,7 @@
     "@testing-library/user-event": "^13.5.0",
     "@uiw/codemirror-theme-tokyo-night": "^4.21.24",
     "@uiw/codemirror-themes": "^4.21.24",
-    "@uiw/react-codemirror": "^4.21.23",
+    "@uiw/react-codemirror": "^4.21.24",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "codemirror": "^6.0.1",
