@@ -1,12 +1,13 @@
+
 import React from "react";
 import CodeMirror from '@uiw/react-codemirror';
 import { javascript } from '@codemirror/lang-javascript';
 import { tokyoNight } from "@uiw/codemirror-theme-tokyo-night";
 
 
-export const  Question=(props)=> {
+export const Question =(props)=> {
 
-  const [value, setValue] = React.useState(props.boilerplate);
+  const [value, setValue] = React.useState("helloo");
   const onChange = React.useCallback((val, viewUpdate) => {
     console.log('val:', val);
     setValue(val);

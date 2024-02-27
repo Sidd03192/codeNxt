@@ -50,7 +50,7 @@ function App() {
     const auth = getAuth();
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        fetchUserData();
+        fetchUserData();  
       } 
     });
     return () => unsubscribe();
