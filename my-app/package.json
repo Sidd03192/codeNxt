@@ -15,10 +15,10 @@
 
     "@uiw/codemirror-theme-tokyo-night": "^4.21.24",
     "@uiw/codemirror-themes": "^4.21.24",
-    "@uiw/react-codemirror": "^4.21.23",
+    "@uiw/react-codemirror": "^4.21.24",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
-
+>>>>>>>>> Temporary merge branch 2
     "codemirror": "^6.0.1",
     "firebase": "^10.8.0",
     "framer-motion": "^11.0.3",
