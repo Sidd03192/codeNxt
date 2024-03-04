@@ -1,16 +1,24 @@
-import React from 'react';
+
 import Compiler from '../Compiler/Complier';
 import {LandingCard} from './landingCards2';
+import React, { useState } from 'react';
 import Calendar from 'react-calendar'
 import {Spacer} from "@nextui-org/react";
+import 'react-calendar/dist/Calendar.css';
+
 import {Card, CardHeader, CardBody, CardFooter, Divider, Link, Image, Button} from "@nextui-org/react";
 
 export const LandingPage=()=> {
+    const [value, setValue] = useState(new Date());
+     function onChange(nextValue) {
+    setValue(nextValue);
+  }
   return (
 
     <div className="flex">
       <Spacer x = {2}/>
-      <Calendar/>
+      <Calendar onChange={onChange}
+      value={value}/>
        <Card
       isFooterBlurred
       radius="lg"
