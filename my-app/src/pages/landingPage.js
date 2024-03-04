@@ -39,7 +39,7 @@ export const LandingPage=()=> {
         <p className="tiny text-white/80">Click here to get coding! </p>
         <ul>
         <li>
-        <Link to = "/compilerPage">
+        <Link to = "/chart">
         <Button className="tiny text-black bg-black/20" variant="outline" color="default" radius="lg" size="lg" >
           Go!
 

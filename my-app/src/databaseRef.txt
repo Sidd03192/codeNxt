@@ -38,6 +38,9 @@ startFunction Name
 
 
 https://github.com/Sidd03192/cs4prez 
+ npm install react-charts@beta --save
+ npm install apexcharts --save
+
 
 
 
