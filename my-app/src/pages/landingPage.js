@@ -5,12 +5,15 @@ import React, { useState } from 'react';
 import Calendar from 'react-calendar'
 import {Spacer} from "@nextui-org/react";
 import 'react-calendar/dist/Calendar.css';
+import {Link} from 'react-router-dom';
 
-import {Card, CardHeader, CardBody, CardFooter, Divider, Link, Image, Button} from "@nextui-org/react";
+import {Card, CardHeader, CardBody, CardFooter, Divider, Image, Button} from "@nextui-org/react";
 
 export const LandingPage=()=> {
     const [value, setValue] = useState(new Date());
      function onChange(nextValue) {
+
+
     setValue(nextValue);
   }
   return (
@@ -34,9 +37,19 @@ export const LandingPage=()=> {
       />
        <CardFooter className="justify-between before:bg-white/10 border-white/20 border-1 overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 w-[calc(100%_-_8px)] shadow-small ml-1 z-10">
         <p className="tiny text-white/80">Click here to get coding! </p>
-        <Button className="tiny text-black bg-black/20" variant="outline" color="default" radius="lg" size="lg">
+        <ul>
+        <li>
+        <Link to = "/compilerPage">
+        <Button className="tiny text-black bg-black/20" variant="outline" color="default" radius="lg" size="lg" >
           Go!
+
         </Button>
+        </Link>
+        
+        </li>
+        </ul>
+       
+       
       </CardFooter>
     </Card>
     <Spacer x = {4} />
