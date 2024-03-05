@@ -2,20 +2,16 @@ import logo from './logo.svg';
 import './App.css';
 import { AboutPage } from './tests';
 import { LandingPage } from './pages/landingPage';
-import {CompilerPage} from './pages/compilerPage';
-import { Question } from './pages/question';
+import {Compiler} from './pages/Compiler/Complier';
 import { Auth} from './auth/auth';
 import { Signup } from './auth/signup';
 import {NextUIProvider} from "@nextui-org/react";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { Header } from './components/header';
-import Compiler from "./Compiler/Complier";
 import { useEffect, useState } from 'react';
 import { getDoc, doc } from 'firebase/firestore';
 import { db } from './firebase/firebase';
-
-
 
 function App() {
   const auth = getAuth();
@@ -68,11 +64,11 @@ function App() {
             <Header email={userData.userName} pic={userData.userPicture} />
             
             <Routes>
-              <Route path="/LandingPage" element={<LandingPage />} />
-              <Route path = "/CompilerPage" element = {<CompilerPage/>} />
-              <Route path="/login" element={<Auth />} />
-              <Route path="/SignUp" element={<Signup />} />
-              <Route path="/Question" element={<Question/>}/>
+              <Route path="/LandingPage" element={<LandingPage/>} />
+              <Route path = "/CompilerPage" element = {<Compiler/>} />
+              <Route path="/login" element={<Auth/>} />
+              <Route path="/SignUp" element={<Signup/>} />
+              {/* <Route path="/Question" element={<CodeEditorContainer/>}/> */}
             </Routes>
           </BrowserRouter>
         </div>

@@ -41,3 +41,20 @@ https://github.com/Sidd03192/cs4prez
 
 
 
+  <Split
+    sizes={[25, 75]}
+    minSize={100}
+    expandToMin={false}
+    gutterSize={10}
+    gutterAlign="center"
+    snapOffset={30}
+    dragInterval={1}
+    direction="horizontal"
+    cursor="col-resize"
+>
+<Compiler/>
+
+</Split>
+      
+
+
