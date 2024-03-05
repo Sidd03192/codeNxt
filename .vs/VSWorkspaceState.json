@@ -5,11 +5,11 @@
     "\\my-app\\src",
     "\\my-app\\src\\auth",
     "\\my-app\\src\\auth\\components",
-    "\\my-app\\src\\Compiler",
     "\\my-app\\src\\components",
     "\\my-app\\src\\firebase",
-    "\\my-app\\src\\pages"
+    "\\my-app\\src\\pages",
+    "\\my-app\\src\\pages\\Compiler"
   ],
-  "SelectedNode": "\\my-app\\src\\pages\\chart.js",
+  "SelectedNode": "\\my-app\\src\\pages\\Compiler\\Complier.js",
   "PreviewInSolutionExplorer": false
 }

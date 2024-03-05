@@ -1,5 +1,4 @@
 
-import Compiler from '../Compiler/Complier';
 import {LandingCard} from './landingCards2';
 import React, { useState } from 'react';
 import Calendar from 'react-calendar'
