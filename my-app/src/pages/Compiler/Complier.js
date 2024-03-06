@@ -108,7 +108,27 @@ const reverse=`public class Main {
     const searchParams = new URLSearchParams(location.search);
     console.log(searchParams);
     const code = searchParams.get('starterCode');
-    const det = searchParams.get('questionDetails')
+    const det = searchParams.get('questionDetails');
+
+    async function getDocumentAndField() {
+      const collectionRef = collection(db, 'problems'); // Replace with your collection name
+      const documentRef = doc(collectionRef, code); // Replace with your document ID
+    
+      const docSnap = await getDoc(documentRef);
+      if (docSnap.exists) {
+        const data = docSnap.data();
+        const fieldName = 'QuestionDetails'; // Replace with your field name
+        const fieldValue = data[fieldName];
+        console.log('Field value:', fieldValue);
+        setDetails(fieldValue);
+      } else {
+        console.log('No such document!');
+      }
+    }
+    
+    getDocumentAndField();
+
+
     console.log("code"+code);
     console.log("question: "+ det);
     setDetails(det);
@@ -250,12 +270,12 @@ const reverse=`public class Main {
           </div>
         </div>
   
-        {/* <div className="col-6" >
+        /* <div className="col-6" >
           <div id="output" >
             <h2>Output</h2>
-            <pre>{output}</pre>
+            <pre>{details}</pre>
           </div>
-        </div> */}
+        </div> */
       </div>
     </div>
   );
