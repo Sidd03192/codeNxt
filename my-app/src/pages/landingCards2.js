@@ -8,26 +8,28 @@ export const  LandingCard=()=> {
           alt="nextui logo"
           height={40}
           radius="sm"
-          src="https://avatars.githubusercontent.com/u/86160567?s=200&v=4"
+          src={require("./codeNext.png")}
           width={40}
         />
         <div className="flex flex-col">
-          <p className="text-md">NextUI</p>
-          <p className="text-small text-default-500">nextui.org</p>
+          <p className="text-md">CodeNXT</p>
+          <p className="text-small text-default-500">CodeNXT.com</p>
         </div>
       </CardHeader>
       <Divider/>
       <CardBody>
-        <p>Make beautiful websites regardless of your design experience.</p>
+        <p>Log in once per day to see your graph go up!
+         <p>Go Bears!</p>
+        </p>
       </CardBody>
       <Divider/>
       <CardFooter>
         <Link
           isExternal
           showAnchorIcon
-          href="https://github.com/nextui-org/nextui"
+          href="chart"
         >
-          Visit source code on GitHub.
+          Check out your charts!
         </Link>
       </CardFooter>
     </Card>
