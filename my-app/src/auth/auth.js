@@ -72,7 +72,9 @@ const signInWithGoogle = async () => {
     console.log("Attempting Google Sign-In...");
     const result = await signInWithPopup(auth, provider);
     console.log("Google Sign-In Result:", result);
+    
     cookies.set("auth-token", result.user.refreshToken);
+    console.log(auth.currentUser);
 
     // Handle successful sign-in with Google
     handleSignInSuccess("Google sign-in successful!", "success");

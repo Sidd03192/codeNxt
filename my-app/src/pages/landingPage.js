@@ -10,17 +10,13 @@ import {Card, CardHeader, CardBody, CardFooter, Divider, Image, Button} from "@n
 
 export const LandingPage=()=> {
     const [value, setValue] = useState(new Date());
-     function onChange(nextValue) {
-
-
-    setValue(nextValue);
-  }
+     
   return (
 
     <div className="flex">
       <Spacer x = {2}/>
-      <Calendar onChange={onChange}
-      value={value}/>
+      {/* <Calendar 
+      value={value}/> */}
        <Card
       isFooterBlurred
       radius="lg"

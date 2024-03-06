@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import "./Compiler.css";
+import { useLocation } from 'react-router-dom'; // Import useLocation hook
+import { collection, doc, getDoc } from 'firebase/firestore';
+import { db } from '../../firebase/firebase';
 import { javascript } from '@codemirror/lang-javascript';
 import { tokyoNight } from "@uiw/codemirror-theme-tokyo-night";
 import CodeMirror from '@uiw/react-codemirror';
@@ -7,12 +10,133 @@ import { Button } from "@nextui-org/react";
 import {ScrollShadow} from "@nextui-org/react";
 import { useEffect } from "react";
 import Split from 'react-split';
+import { useParams } from "react-router-dom";
 
-export const Compiler = () => {
-  const [value, setValue] = useState(localStorage.getItem("savedCode") || "");
-  const [output, setOutput] = useState(""); // State variable to hold the output
+export const Compiler = (props) => {
+  const location = useLocation(); // Use useLocation hook
+  const { problemId } = useParams();
+  console.log(problemId);
+  const [details, setDetails] = useState('');
+
+  const twoSum =
+   `import java.util.*;
+  public class Main {
+      public static int[] twoSum(int[] nums, int target) {
+          // input your code here. return null;
+      }
+  
+      public static void main(String[] args) {
+          int[][] testCases = {{2, 7, 11, 15}, {5, 2, 3}, {3, 2, 4}};
+          int[] targets = {9, 7, 6};
+          for (int i = 0; i < testCases.length; i++) {
+              int[] result = twoSum(testCases[i], targets[i]);
+              System.out.println("Input: nums = [" + testCases[i][0] + ", " + testCases[i][1] + ", " + testCases[i][2] + ", " + testCases[i][3] + "], target = " + targets[i]);
+              if (result.length == 0) {
+                  System.out.println("Output: No such numbers found");
+              } else {
+                  System.out.println("Output: [" + result[0] + ", " + result[1] + "]");
+              }
+              System.out.println("-----");
+          }
+      }
+  }`;
+  const buzz=`public class Main {
+
+    public static List<String> fizzBuzz(int n) {
+        // start here
+    }
+
+    public static void main(String[] args) {
+        int[] testCases = {15, 20, 25};
+
+        for (int i = 0; i < testCases.length; i++) {
+            List<String> result = fizzBuzz(testCases[i]);
+            System.out.println("Input: " + testCases[i]);
+            System.out.println("Output: " + result);
+            System.out.println("-----");
+        }
+    }
+}
+`;
+const PalindromeNumber=`public class Main {
+
+  public static boolean isPalindrome(int x) {
+      // start here
+  }
+
+  public static void main(String[] args) {
+      int[] testCases = {121, -121, 10};
+
+      for (int i = 0; i < testCases.length; i++) {
+          boolean result = isPalindrome(testCases[i]);
+          System.out.println("Input: " + testCases[i]);
+          System.out.println("Output: " + result);
+          System.out.println("-----");
+      }
+  }
+}
+`;
+const reverse=`public class Main {
+
+  public static void reverseString(char[] s) {
+      // start here
+
+  }
+
+  public static void main(String[] args) {
+      char[][] testCases = {
+          {'h', 'e', 'l', 'l', 'o'},
+          {'H', 'a', 'n', 'n', 'a', 'h'},
+          {'a', 'b', 'c', 'd'}
+      };
+
+      for (int i = 0; i < testCases.length; i++) {
+          reverseString(testCases[i]);
+          System.out.println("Input: " + Arrays.toString(testCases[i]));
+          System.out.println("Output: " + Arrays.toString(testCases[i]));
+          System.out.println("-----");
+      }
+  }
+}
+`
+  
+  const [value, setValue] = useState();
+    const [output, setOutput] = useState(""); // State variable to hold the output
   const [isLoading, setIsLoading] = useState(false); // State variable to control loading state
-console.log(value);
+ 
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    console.log(searchParams);
+    const code = searchParams.get('starterCode');
+    const det = searchParams.get('questionDetails')
+    console.log("code"+code);
+    console.log("question: "+ det);
+    setDetails(det);
+    if (code==='FizzBuzz')
+    {
+      console.log("hooray")
+      setValue(buzz);
+    }
+    if (code==='problem1')
+    {
+      console.log("hooray")
+      setValue(twoSum);
+    }
+    if (code==='PalindromeNumber')
+    {
+      console.log("hooray")
+      setValue(PalindromeNumber);
+    }
+    if (code==='Reverse a String')
+    {
+      console.log("hooray")
+      setValue(reverse);
+    }
+    }, [location]);
+
+
+
+
   const inputChangeHandler = (val, viewUpdate) => {
     setValue(val);
     localStorage.setItem("savedCode", val);
