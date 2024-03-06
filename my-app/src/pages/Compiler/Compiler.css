@@ -55,6 +55,8 @@ box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 backdrop-filter: blur(6.5px);
 -webkit-backdrop-filter: blur(6.5px);
 padding: 10px;
+width:85vh;
+overflow-y: scroll;
 
 }
   .problem{
@@ -76,4 +78,6 @@ justify-content: "flex-end"
 h1{
   text-align: center;
   padding-bottom: 2%;
+}
+.accordian{
 }

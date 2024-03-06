@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./Compiler.css";
+import { Chat } from "./chat";
 import { useLocation } from 'react-router-dom'; // Import useLocation hook
 import { collection, doc, getDoc } from 'firebase/firestore';
 import { db } from '../../firebase/firebase';
@@ -13,11 +14,16 @@ import Split from 'react-split';
 import { useParams } from "react-router-dom";
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
+import {Accordion, AccordionItem} from "@nextui-org/react";
+
+import { Roomz } from "./roomz";
+import { ChatGPT } from "./server";
 export const Compiler = (props) => {
   const location = useLocation(); // Use useLocation hook
   const { problemId } = useParams();
   console.log(problemId);
   const [details, setDetails] = useState('');
+  const[name, setName]=useState("")
   const [openSnackbar, setOpenSnackbar] = useState(false); // State for Snackbar visibility
   const [snackbarMessage, setSnackbarMessage] = useState(""); // State for Snackbar message
   const [success, setSuccess] = useState("")
@@ -115,13 +121,13 @@ const reverse=`public class Main {
   const [value, setValue] = useState();
     const [output, setOutput] = useState(""); // State variable to hold the output
   const [isLoading, setIsLoading] = useState(false); // State variable to control loading state
- 
+ const[deta,setDeta]=useState("");
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     console.log(searchParams);
     const code = searchParams.get('starterCode');
     const det = searchParams.get('questionDetails');
-
+      setDeta(det);
     async function getDocumentAndField() {
       const collectionRef = collection(db, 'problems'); // Replace with your collection name
       const documentRef = doc(collectionRef, code); // Replace with your document ID
@@ -300,7 +306,19 @@ const reverse=`public class Main {
           <div className="col-6 blue" >
           <div className="output"   >
             <h1>Output</h1> 
-            <p>{details}</p>
+
+            <Accordion variant="shadow" className="accordian">
+      <AccordionItem key="1" aria-label="Accordion 1" title="Description ">
+      <p>{details}</p>
+
+      </AccordionItem>
+      <AccordionItem key="2" aria-label="Accordion 2" title="Discussion">
+          <Chat room={deta}/>     
+      </AccordionItem>
+      <AccordionItem key="3" aria-label="Accordion 2" title="Ask Gerboa">
+          <ChatGPT ca={value}/>  
+      </AccordionItem>
+    </Accordion>
           </div>
           <Snackbar    anchorOrigin={{vertical, horizontal}}  TransitionComponent="Fade"
  open={openSnackbar} autoHideDuration={6000} onClose={() => setOpenSnackbar(false)}> 
