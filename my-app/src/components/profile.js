@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 import Cookies from "universal-cookie";
 export const Profile=(props)=> {
     const cookies = new Cookies();
-    
+    console.log('email'+props.email)
     const [user, setUser]= useState(getAuth().currentUser);
     const [isAuth, setIsAuth] = useState(cookies.get("auth-token"));
 

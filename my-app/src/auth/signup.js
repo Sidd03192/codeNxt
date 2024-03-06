@@ -115,11 +115,11 @@ const signInWithGoogle = async () => {
 
 
 
-const updateUserDataInFirestore = (email, displayName, photoURL) => {
+const updateUserDataInFirestore = (Email, displayName, photoURL) => {
   const userDocRef = doc(db, 'users', auth.currentUser.uid);
 
   setDoc(userDocRef, {
-    email: email,
+    email: Email,
     userName: displayName,
     userPicture: photoURL,
     userId:userData.userId,
