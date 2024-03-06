@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import { AboutPage } from './tests';
+import {Question} from "./pages/Compiler/question"
 import { LandingPage } from './pages/landingPage';
 import {Compiler} from './pages/Compiler/Complier';
 import { Auth} from './auth/auth';
@@ -68,7 +69,7 @@ function App() {
               <Route path = "/CompilerPage" element = {<Compiler/>} />
               <Route path="/login" element={<Auth/>} />
               <Route path="/SignUp" element={<Signup/>} />
-              {/* <Route path="/Question" element={<CodeEditorContainer/>}/> */}
+               <Route path="/Question" element={<Question/>}/> 
             </Routes>
           </BrowserRouter>
         </div>
