@@ -166,7 +166,7 @@ const validateEmail = (Email) => Email.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{
   }, [Email]);
 
 const handleSignIn = async (event) => {
-  event.preventDefault();
+  console.log("attempting sign up");
   try {
     const result = await createUserWithEmailAndPassword(auth, Email, Password);
     console.log("create user result:", result);
@@ -407,7 +407,7 @@ return (
       {isLoginEnabled && (
             <div className="buttonz">
               <button 
-              onClick={() =>( read &&userData.password!="" && userData.email) ? handleSignIn() : handleSignInSuccess("Read Those Terms.. & Fill them Feilds", "warning")}
+              onClick={() =>( read && Password!=="" && Email!=="") ? handleSignIn() : handleSignInSuccess("Read Those Terms.. & Fill them Feilds-1", "warning")}
               className="space" type="button">
                 <strong>LOGIN</strong>
                 <div id="container-stars">

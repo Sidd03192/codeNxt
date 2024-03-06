@@ -1,3 +1,8 @@
+body{
+    background-color: black;
+}
+
+
 .codeEditor{
 width: 100%;
 
@@ -7,4 +12,8 @@ z-index: 1;
 button{
     z-index: 10;
     color: blue;
+}
+
+.questions{
+    background-color: black;
 }

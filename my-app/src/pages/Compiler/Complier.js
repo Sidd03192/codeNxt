@@ -11,12 +11,24 @@ import {ScrollShadow} from "@nextui-org/react";
 import { useEffect } from "react";
 import Split from 'react-split';
 import { useParams } from "react-router-dom";
-
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 export const Compiler = (props) => {
   const location = useLocation(); // Use useLocation hook
   const { problemId } = useParams();
   console.log(problemId);
   const [details, setDetails] = useState('');
+  const [openSnackbar, setOpenSnackbar] = useState(false); // State for Snackbar visibility
+  const [snackbarMessage, setSnackbarMessage] = useState(""); // State for Snackbar message
+  const [success, setSuccess] = useState("")
+  const handleSignInSuccess = (message, fortune) => {
+    setOpenSnackbar(true); // Open the Snackbar
+    setSnackbarMessage(message); // Set the Snackbar message
+    setSuccess(fortune); // Set the
+  };
+  const vertical ="top"
+const horizontal="center"
+
 
   const twoSum =
    `import java.util.*;
@@ -216,20 +228,37 @@ const reverse=`public class Main {
         const output = atob(jsonGetSolution.stdout);
         setOutput(output); // Update the output state with the received output
         console.log(output);
+        const passedCount = (output.match(/PASSED/g) || []).length;
+        console.log("Number of times 'PASSED' appeared:", passedCount);
+        const failedCount = (output.match(/FAILED/g) || []).length;
+        console.log("Number of times 'FAILED' appeared:", passedCount);
+        if (passedCount==3)
+        {
+          handleSignInSuccess(" Congrats ! Thats Perfect ", "success");
+
+        }
+        else{
+          handleSignInSuccess("Failed "+failedCount +" Test Cases", "warning");
+
+        }
         
       } else if (jsonGetSolution.stderr) {
         const error = atob(jsonGetSolution.stderr);
         setOutput(error);
         console.log(error);
+        handleSignInSuccess("Run-Time Error", "warning");
+
 
       } else {
         const compilation_error = atob(jsonGetSolution.compile_output);
         setOutput("compilation Error\n"+compilation_error);
         console.log(compilation_error);
+        handleSignInSuccess("Compilation Error", "warning");
 
       }
     } catch (error) {
       console.error("Error:", error);
+
     } finally {
       setIsLoading(false); // Set loading state to false once execution is done
     }
@@ -237,8 +266,8 @@ const reverse=`public class Main {
 
   return (
     <div className="whole">
-      <div className="row container-fluid">
-        <div className="col-6 ml-4">
+      <div className="row container-fluid ">
+        <div className="col-6 ml-4 flex">
           <label htmlFor="solution"></label>
           <div id="source" className="input">
             <CodeMirror 
@@ -268,14 +297,21 @@ const reverse=`public class Main {
               {isLoading ? 'Running...' : 'Run'} {/* Button text based on loading state */}
             </Button>
           </div>
+          <div className="col-6 blue" >
+          <div className="output"   >
+            <h1>Output</h1> 
+            <p>{details}</p>
+          </div>
+          <Snackbar    anchorOrigin={{vertical, horizontal}}  TransitionComponent="Fade"
+ open={openSnackbar} autoHideDuration={6000} onClose={() => setOpenSnackbar(false)}> 
+        <Alert onClose={() => setOpenSnackbar(false)} severity={success} variant="filled" sx={{ width: '100%' }}>
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
+        </div>
         </div>
   
-        /* <div className="col-6" >
-          <div id="output" >
-            <h2>Output</h2>
-            <pre>{details}</pre>
-          </div>
-        </div> */
+        
       </div>
     </div>
   );
