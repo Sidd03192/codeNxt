@@ -21,7 +21,7 @@
     padding: 10px;
     border-radius: 30px;
     background-color: black;
-
+    text-align: left;
   }
   
   #submit-btn{
@@ -30,8 +30,8 @@
     
   }
   #output {
-    overflow-y: scroll;
-    min-height: 100px;
+    overflow-y:scroll;
+    max-height: 100px;
    color:white;
     font-size: 16px;
     /* From https://css.glass */

@@ -12,11 +12,7 @@ import {Card, CardHeader, CardBody, CardFooter, Divider, Image, Button} from "@n
 
 export const LandingPage=()=> {
     const [value, setValue] = useState(new Date());
-     function onChange(nextValue) {
-
-
-    setValue(nextValue);
-  }
+     
   return (
     
     <div className="h-[40rem] relative w-full bg-black flex flex-col items-center justify-center overflow-hidden rounded-md">
@@ -37,11 +33,9 @@ export const LandingPage=()=> {
     </h1>
     <Spacer y = {10}/>
     <div className="flex">
-      
-      <Calendar onChange={onChange}
-      
-      value={value}/>
-      <Spacer x = {4}/>
+      <Spacer x = {2}/>
+      {/* <Calendar 
+      value={value}/> */}
        <Card
       isFooterBlurred
       radius="lg"
